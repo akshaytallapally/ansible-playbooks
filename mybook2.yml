@@ -1,0 +1,14 @@
+---
+  - hosts: web_group
+    become: yes
+
+    tasks:
+            - name: uninstall apache
+              apt: name=apache2 state=absent
+
+
+            - name: stopping apache2
+              service: name=apache2 state=stopped enabled=no
+
+
+...              

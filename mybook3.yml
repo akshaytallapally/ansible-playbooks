@@ -1,0 +1,13 @@
+---
+  - hosts: web-redhat
+    become: yes
+
+    tasks:
+           - name: stopping service
+             service: name=httpd state=stopped enabled=no
+
+           - name: uninstall apache
+             yum: name=httpd state=absent
+
+
+...              

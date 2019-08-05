@@ -1,0 +1,8 @@
+---
+ - hosts: web-nginx
+   become: yes
+
+   tasks:
+           - name: copying properties
+             copy: src=/home/akshay/application.properties dest=/root/apache-tomcat-8.5.43/webapps/vprofile-v1/WEB-INF/classes/application.properties
+...             

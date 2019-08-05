@@ -1,0 +1,28 @@
+---
+
+- hosts: web-db
+  become: yes
+
+  tasks:
+           - name: copying accounts.db
+             copy: src=/home/akshay/accountsdb.sql dest=/tmp
+             tags:
+                  - deploy
+           - name: restoring database
+             mysql_db:
+                    name: accounts
+                    login_user: root
+                    login_password:
+                    state: import
+                    target: /tmp/accountsdb.sql
+             tags:
+                  - deploy
+             notify:
+                  - restart mysql
+  handlers:
+            - name: restart mysql
+              service:
+                     name: mysql
+                     state: restarted      
+...
+

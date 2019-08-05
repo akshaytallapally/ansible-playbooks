@@ -1,0 +1,26 @@
+---
+ - hosts: web-nginx
+   become: yes
+
+   tasks:
+           - name: install nginx
+             apt: name=nginx state=present
+
+           - name: starting nginx
+             service: name=nginx state=started enabled=yes
+             
+           - name: removing from available
+             command: rm -rf /etc/nginx/sites-available/default
+
+           - name: removing from enabled
+             command: rm -rf /etc/nginx/sites-enabled/default
+
+           - name: copying vproapp
+             copy: src=/home/akshay/vproapp dest=/etc/nginx/sites-available/vproapp
+
+           - name: copying
+             copy: src=/home/akshay/vproapp dest=/etc/nginx/sites-enabled/vproapp
+
+           - name: restarting
+             service: name=nginx state=restarted  
+...             

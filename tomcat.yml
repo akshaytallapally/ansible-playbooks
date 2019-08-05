@@ -1,0 +1,35 @@
+---
+ - hosts: web-nginx
+   become: yes
+
+   tasks:
+           - name: updating packages
+             command: apt update
+           - name: installing java
+             apt: name=openjdk-8-jdk state=present
+
+           - name: downloading tomcat
+             get_url: url=http://apachemirror.wuchna.com/tomcat/tomcat-8/v8.5.43/bin/apache-tomcat-8.5.43.tar.gz dest=/root/
+
+           - name: extracting file
+             command: tar -xzvf apache-tomcat-8.5.43.tar.gz
+
+           - name: copying war file
+             copy: src=/home/akshay/VProfile/target/vprofile-v1.war dest=/root/apache-tomcat-8.5.43/webapps
+           - debug: msg="Running Tomcat via Ansible"
+           - name: starting tomcat
+
+             shell: /root/apache-tomcat-8.5.43/bin/startup.sh
+             args:
+                     chdir: "/tmp"
+           - name: starting
+             command: "nohup /root/apache-tomcat-8.5.43/bin/startup.sh"
+             tags: start
+           - name: stopping
+             command: "nohup /root/apache-tomcat-8.5.43/bin/shutdown.sh"
+             tags: stop
+
+
+
+...
+

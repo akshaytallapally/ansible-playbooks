@@ -1,0 +1,22 @@
+---
+ - hosts: red-db
+   become: yes
+
+   tasks:
+
+           - name: installing mysql
+             yum: name={{ item }} state=latest
+             with_items:
+                     - python-mysqldb
+                     - mysql-server
+
+
+
+           - name: creating accounts database
+             mysql_db: name=accounts state=present
+
+           - name: creat password for root
+             mysql_user: name=root password=vprodbpass
+...             
+
+
